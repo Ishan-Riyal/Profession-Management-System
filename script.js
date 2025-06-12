@@ -6,64 +6,62 @@ const btnSubmit = document.querySelector(".btn-submit");
 const employeeContainer = document.getElementById("employeeContainer");
 const noData = document.getElementById("noData");
 const errorMessage = document.getElementById("errorMessage");
+const successMessage = document.getElementById("successMessage");
 
 btnSubmit.addEventListener("click", addEmployee);
 
 function addEmployee(e) {
   e.preventDefault();
 
-  // Validation
-  if (!empName.value || !empProfession.value || !empAge.value) {
+  const name = empName.value.trim();
+  const profession = empProfession.value.trim();
+  const age = empAge.value.trim();
+
+  if (!name || !profession || !age) {
     errorMessage.style.display = "block";
+    successMessage.style.display = "none";
     return;
   }
 
   errorMessage.style.display = "none";
   successMessage.style.display = "block";
 
+  // Hide success message after 3 seconds
   setTimeout(() => {
     successMessage.style.display = "none";
   }, 3000);
 
-  if (noData) {
-    noData.style.display = "none";
-  }
+  noData.style.display = "none";
 
-  // Create <li> wrapper
-  const employeeWrapper = document.createElement("li");
-  employeeWrapper.classList.add("employee-wrapper");
+  // Insert employee using insertAdjacentHTML
+  employeeContainer.insertAdjacentHTML(
+    "beforeend",
+    `
+    <li class="employee-wrapper">
+      <div class="employee-card">
+        <span class="emp-name">${name}</span>
+        <span class="emp-profession">${profession}</span>
+        <span class="emp-age">Age: ${age}</span>
+      </div>
+      <button class="btn-delete">Delete</button>
+    </li>
+  `
+  );
 
-  // Create card
-  const employeeCard = document.createElement("div");
-  employeeCard.classList.add("employee-card");
-
-  employeeCard.innerHTML = `
-    <span class="emp-name">${empName.value}</span>
-    <span class="emp-profession">${empProfession.value}</span>
-    <span class="emp-age">${empAge.value}</span>
-  `;
-
-  // Create delete button
-  const deleteBtn = document.createElement("button");
-  deleteBtn.classList.add("btn-delete");
-  deleteBtn.textContent = "Delete";
-
-  // Delete functionality
-  deleteBtn.addEventListener("click", () => {
-    employeeContainer.removeChild(employeeWrapper);
-
-    if (employeeContainer.children.length === 0) {
-      noData.style.display = "block";
-    }
-  });
-
-  // Assemble and append
-  employeeWrapper.appendChild(employeeCard);
-  employeeWrapper.appendChild(deleteBtn);
-  employeeContainer.appendChild(employeeWrapper);
-
-  // Reset form
   empName.value = "";
   empProfession.value = "";
   empAge.value = "";
 }
+
+// Delete using event delegation
+employeeContainer.addEventListener("click", function (e) {
+  if (e.target.classList.contains("btn-delete")) {
+    const li = e.target.closest("li");
+    if (li) {
+      li.remove();
+    }
+    if (employeeContainer.children.length === 0) {
+      noData.style.display = "block";
+    }
+  }
+});
