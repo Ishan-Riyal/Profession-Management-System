@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Form</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1 class="heading">New Employees</h1>
+    </header>
+
+    <main>
+      <form method="POST" class="form">
+        <div class="form-inputs">
+          <div class="form-input">
+            <label for="name">Enter Name</label>
+            <input type="text" name="name" id="name" required />
+          </div>
+          <div class="form-input">
+            <label for="profession">Enter Profession</label>
+            <input type="text" name="profession" id="profession" required />
+          </div>
+          <div class="form-input">
+            <label for="age">Enter Age</label>
+            <input type="number" name="age" id="age" required />
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Add User</button>
+        <p id="errorMessage" class="empty-fields" style="display: none">
+          Error: Please Make sure All the field before adding in an emplyee
+        </p>
+        <p id="successMessage" class="success-message" style="display: none">
+          Employee added successfully!
+        </p>
+      </form>
+
+      <section class="employee-list">
+        <h2>Added Employees</h2>
+        <ul id="employeeContainer">
+          <li id="noData">Data Not Found</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
